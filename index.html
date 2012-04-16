@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Break Timer</title>
+  <script>
+    var timer = function(){};
+    
+    timer.prototype.run = function(duration){
+      var d = parseInt(duration) || 1200000
+      now = new Date()
+      var nextBreak = new Date(now.getTime() + d)
+      var self = this;
+      window.clearTimeout(self.clock);
+      document.getElementById('next-break').innerHTML = nextBreak.getHours() + ":" + nextBreak.getMinutes()
+      self.clock = window.setTimeout(function(){
+        repeat = confirm("Take a break.")
+        if(!repeat){
+          return true;
+        } else {
+          self.run(d)
+        }
+      },d);
+    }
+
+    window.onload = function(){
+      t = new timer();
+      t.run();
+    }
+  </script>
+  <style>
+    body {
+      font-family: sans-serif;
+      color: white;
+      background: #222;
+    }
+    h1 {
+      position: absolute;
+      height: 0;
+      padding-top: 260px;
+      width: 240px;
+      top: 50%;
+      left: 50%;
+      margin: -150px 0 0 -120px;
+      background: #222 url('clock.png') no-repeat center top;
+      background-size: 240px;
+      white-space: nowrap;
+      font-size: 24px;
+      line-height: 24px;
+      text-align: center;
+      text-shadow: 1px 1px 5px black;
+    }
+    #next-break {
+      color: #C8212D;
+    }
+  </style>
+</head>
+<body>
+  <h1>Break again at <span id="next-break"></span></h1>
+</body>
+</html>
